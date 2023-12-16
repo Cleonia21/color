@@ -26,6 +26,12 @@ function round(num) {
     return num
 }
 
+// sequenceToTable приводит последовательность сигналов(к, к, ж, к, ж...) к нужному виду:
+// |к |ж |
+// |2 |1 |
+// |1 |1 |
+// ...
+// и возвращает эти данные в виде таблицы
 function sequenceToTable(sequence) {
     let sequenceInNumber = []
     sequenceInNumber.push('к', 'ж')

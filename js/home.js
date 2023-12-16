@@ -1,26 +1,34 @@
+// коды кнопок мыши
 const redID = 0
 const yellowID = 2
 
+// массивы временных отрезков
 let redPauses = []
 let yellowPauses = []
 let betweenPauses = []
 let redDisplay = []
 let yellowDisplay = []
 
+// количество отображения сигналов
 let redNum = 0
 let yellowNum = 0
 
+// в какой последовательности были поданы сигналы
 let sequence = []
 
 let lastTime = 0
 let lastColorSignal = -1
 
 const circle = document.getElementById('circle')
+// флаг на отобразить результат/закрыть результат
 let resultFlag = 1
 
 addEventListener('mousedown', function (event) {
+    // игнорируем клик мыши если на данный момент на экране результат
     if (resultFlag === 2)
         return
+
+    // зажигаем круг красным, записываем необходимые данные
     if (event.button === redID) {
         circle.style.background = '#ff0000'
 
@@ -34,7 +42,7 @@ addEventListener('mousedown', function (event) {
         }
         lastColorSignal = redID
         lastTime = performance.now()
-    } else if (event.button === yellowID) {
+    } else if (event.button === yellowID) { // зажигаем круг желтым, записываем необходимые данные
         circle.style.background = 'yellow'
 
         sequence.push('ж')
@@ -47,7 +55,7 @@ addEventListener('mousedown', function (event) {
         }
         lastColorSignal = yellowID
         lastTime = performance.now()
-    } else if (event.button === 1) {
+    } else if (event.button === 1) { // сохраняем собранные данные, один из этапов исследования завершен
         saveResult()
         new Toast({
             title: false,
@@ -60,8 +68,10 @@ addEventListener('mousedown', function (event) {
 })
 
 addEventListener('mouseup', function (event) {
+    // игнорируем отпускание кнопки мыши если на данный момент на экране результат
     if (resultFlag === 2)
         return
+    // гасим красный/желтый цвет круга, сохраняем данные
     if (event.buttons === redID || event.buttons === yellowID) {
         circle.style.background = '#fff'
         if (lastColorSignal === redID) {
@@ -75,14 +85,16 @@ addEventListener('mouseup', function (event) {
 })
 
 $(this).on('keypress', function(event) {
+    // по нажатию Enter
     if (event.keyCode === 13) {
+        // завершаем исследование, выводим результат
         if (resultFlag === 1) {
             resultFlag = 2
             saveResult()
             document.getElementById('parent').style.visibility = 'hidden'
             document.body.appendChild(resultParent)
             resultFlag = 2
-        } else if (resultFlag === 2) {
+        } else if (resultFlag === 2) { // удаляем контейнер с исследованием, начинаем новое исследование
             document.getElementById('tmp').remove()
             resultParent = document.createElement('div')
             resultParent.className = 'ResultParent'
