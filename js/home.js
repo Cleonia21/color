@@ -1,63 +1,3 @@
-class Circle {
-    static MOUSE_LEFT_ID = 0
-    static MOUSE_WHEEL_ID = 1
-    static MOUSE_RIGHT_ID = 2
-
-    static ENTER_ID = 13
-
-    static #circle = document.getElementById('circle')
-
-    // массивы временных отрезков
-    #redPauses = []
-    #yellowPauses = []
-    #betweenPauses = []
-    #redDisplay = []
-    #yellowDisplay = []
-
-    // количество отображения сигналов
-    #redNum = 0
-    #yellowNum = 0
-
-    // в какой последовательности были поданы сигналы
-    #sequence = []
-
-    #lastTime = 0
-    #lastColorSignal = -1
-
-    constructor() {
-
-    }
-}
-
-// коды кнопок мыши
-const redID = 0
-const yellowID = 2
-const mouseWheelID = 1
-
-// коды клавиш
-const enterID = 13
-
-// массивы временных отрезков
-let redPauses = []
-let yellowPauses = []
-let betweenPauses = []
-let redDisplay = []
-let yellowDisplay = []
-
-// количество отображения сигналов
-let redNum = 0
-let yellowNum = 0
-
-// в какой последовательности были поданы сигналы
-let sequence = []
-
-let lastTime = 0
-let lastColorSignal = -1
-
-const circle = document.getElementById('circle')
-// флаг на отобразить результат/закрыть результат
-let resultFlag = 1
-
 // определяем, поддерживается ли pointerLock
 var havePointerLock = 'pointerLockElement' in document ||
     'mozPointerLockElement' in document ||
@@ -66,8 +6,8 @@ if(!havePointerLock){
     alert('Ваш браузер не поддерживает блокировку мышки');
 }
 
-// Элемент, для которого будем включать pointerLock
-var requestedElement = document.getElementById('parent');
+
+
 
 addEventListener('mousedown', function (event) {
     // игнорируем клик мыши если на данный момент на экране результат
@@ -92,7 +32,7 @@ $(this).on('keypress', function(event) {
 })
 
 function stageSwitch() {
-    // отключаем pointerLock 
+    // отключаем pointerLock
     document.exitPointerLock();
 
     // завершаем исследование, выводим результат
@@ -114,8 +54,7 @@ function stageSwitch() {
 }
 
 function keyDown(code) {
-    // включаем pointerLock
-    requestedElement.requestPointerLock();
+
 
     // зажигаем круг красным, записываем необходимые данные
     if (code === redID) {
@@ -198,7 +137,7 @@ function turnCircleYellow() {
     lastColorSignal = yellowID
     lastTime = performance.now()
 }
-  
+
 
 
 
