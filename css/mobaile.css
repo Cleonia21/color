@@ -1,0 +1,13 @@
+@media (max-width:768px) {
+    #circle {
+        width: 5cm;
+        height: 5cm;
+    }
+}
+
+@media (max-width:320px) {
+    #circle {
+        width: 3cm;
+        height: 3cm;
+    }
+}
