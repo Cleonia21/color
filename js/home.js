@@ -1,33 +1,74 @@
 // определяем, поддерживается ли pointerLock
-var havePointerLock = 'pointerLockElement' in document ||
+const havePointerLock = 'pointerLockElement' in document ||
     'mozPointerLockElement' in document ||
     'webkitPointerLockElement' in document;
 if(!havePointerLock){
     alert('Ваш браузер не поддерживает блокировку мышки');
 }
 
+// Элемент, для которого будем включать pointerLock
+let requestedElement = document.getElementById('parent');
 
+let resultFlag = 1
 
+let circle = new Circle()
+let result = new ResearchResult()
+
+const [redID, yellowID, mouseWheelID] = [0, 2, 1]
+
+function nowResultStage() {
+    return resultFlag === 2;
+}
 
 addEventListener('mousedown', function (event) {
     // игнорируем клик мыши если на данный момент на экране результат
-    if (nowResultStage() === 2)
+    if (nowResultStage())
         return
-    keyDown(event.button)
+    // включаем pointerLock
+    requestedElement.requestPointerLock();
+    // зажигаем круг красным, записываем необходимые данные
+    if (event.button === redID) {
+        circle.turnRed()
+    } else if (event.button === yellowID) { // зажигаем круг желтым, записываем необходимые данные
+        circle.turnYellow()
+    } else if (event.button === mouseWheelID) { // сохраняем собранные данные, один из этапов исследования завершен
+        result.saveStep(circle.getResult())
+        result.alert()
+        circle = new Circle()
+    } else {
+        console.log(event.button)
+    }
 })
 
 addEventListener('mouseup', function (event) {
     // игнорируем клик мыши если на данный момент на экране результат
-    if (nowResultStage() === 2)
+    if (nowResultStage())
         return
-    keyUp(event.buttons)
+    if (event.button === redID || event.button === yellowID)
+        circle.turnOf()
 })
 
-$(this).on('keypress', function(event) {
-    if (event.keyCode === enterID) {
+addEventListener('keydown', function(event) {
+    if (event.code === 'Enter') { //enterID
         stageSwitch()
+    } else if (event.code === 'Space') {
+        result.saveStep(circle.getResult())
+        result.alert()
+        circle = new Circle()
+    } else if (event.code === 'ArrowLeft') {
+        circle.turnRed()
+    } else if (event.code === 'ArrowRight') {
+        circle.turnYellow()
     } else {
-        console.log(event.keyCode)
+        console.log(event.code)
+    }
+})
+
+addEventListener('keyup', function(event) {
+    if (event.code === 'ArrowLeft' || 'ArrowRight') {
+        circle.turnOf()
+    } else {
+        console.log(event.code)
     }
 })
 
@@ -38,143 +79,20 @@ function stageSwitch() {
     // завершаем исследование, выводим результат
     if (resultFlag === 1) {
         resultFlag = 2
-        saveResult()
+
+        result.saveStep(circle.getResult())
+        circle = new Circle()
+
         document.getElementById('parent').style.visibility = 'hidden'
-        document.body.appendChild(resultParent)
+
+        document.body.appendChild(result.result)
         document.body.style.backgroundColor = '#fff'
     } else if (resultFlag === 2) { // удаляем контейнер с результатом, начинаем новое исследование
         resultFlag = 1
-        document.getElementById('tmp').remove()
-        resultParent = document.createElement('div')
-        resultParent.className = 'ResultParent'
-        resultParent.id = 'tmp'
+
+        result.clear()
+
         document.getElementById('parent').style.visibility = 'visible'
         document.body.style.backgroundColor = '#6f6f6f'
     }
-}
-
-function keyDown(code) {
-
-
-    // зажигаем круг красным, записываем необходимые данные
-    if (code === redID) {
-        turnCircleRed()
-    } else if (code === yellowID) { // зажигаем круг желтым, записываем необходимые данные
-        turnCircleYellow()
-    } else if (code === mouseWheelID) { // сохраняем собранные данные, один из этапов исследования завершен
-        ControPoint()
-    } else {
-        console.log(code)
-    }
-}
-
-function keyUp(code) {
-    // игнорируем клик мыши если на данный момент на экране результат
-    if (nowResultStage() === 2)
-        return
-
-    // гасим красный/желтый цвет круга, сохраняем данные
-    if (code === redID || code === yellowID) {
-        circle.style.background = '#6f6f6f'
-        if (lastColorSignal === redID) {
-            redDisplay.push(performance.now() - lastTime)
-        }
-        if (lastColorSignal === yellowID) {
-            yellowDisplay.push(performance.now() - lastTime)
-        }
-        lastTime = performance.now()
-    }
-}
-
-function nowResultStage() {
-    if (resultFlag === 2) {
-        return true
-    }
-    return false
-}
-
-function ControPoint() {
-    saveResult()
-    displayControPoint()
-}
-
-function displayControPoint() {
-    new Toast({
-        title: false,
-        text: 'Часть исследования завершена',
-        theme: 'light',
-        autohide: true,
-        interval: 1000
-    });
-}
-
-function turnCircleRed() {
-    circle.style.background = '#ff0000'
-
-    sequence.push('к')
-    redNum++
-
-    if (lastColorSignal === redID) {
-        redPauses.push(performance.now() - lastTime)
-    } else if (lastColorSignal === yellowID) {
-        betweenPauses.push(performance.now() - lastTime)
-    }
-    lastColorSignal = redID
-    lastTime = performance.now()
-}
-
-function turnCircleYellow() {
-    circle.style.background = 'yellow'
-
-    sequence.push('ж')
-    yellowNum++
-
-    if (lastColorSignal === yellowID) {
-        yellowPauses.push(performance.now() - lastTime)
-    } else if (lastColorSignal === redID) {
-        betweenPauses.push(performance.now() - lastTime)
-    }
-    lastColorSignal = yellowID
-    lastTime = performance.now()
-}
-
-
-
-
-let resultParent = document.createElement('div')
-resultParent.className = 'ResultParent'
-resultParent.id = 'tmp'
-
-function saveResult() {
-    let table = document.createElement('table')
-
-    table.appendChild(createTableRow('Подано сигналов', redNum + yellowNum))
-    table.appendChild(createTableRow('Красных', redNum))
-    table.appendChild(createTableRow('Желтых', yellowNum))
-    table.appendChild(createTableRow('Пауза между красными (средняя)', round(average(redPauses)) + ' мс'))
-    table.appendChild(createTableRow('Пауза между жёлтыми (средняя)', round(average(yellowPauses)) + ' мс'))
-    table.appendChild(createTableRow('Пауза при смене сигнала (средняя)', round(average(betweenPauses)) + ' мс'))
-    table.appendChild(createTableRow('Время горения красного сигнала (средняя)', round(average(redDisplay)) + ' мс'))
-    table.appendChild(createTableRow('Время горения жёлтого сигнала (средняя)', round(average(yellowDisplay)) + ' мс'))
-
-    let div = document.createElement('div')
-    div.className = 'MilestoneResult'
-
-    let p = document.createElement('p')
-    p.textContent = 'Проба ' + (resultParent.children.length + 1).toString()
-    div.appendChild(p)
-    div.appendChild(table)
-    div.appendChild(sequenceToTable(sequence))
-    resultParent.appendChild(div)
-
-    redPauses = []
-    yellowPauses = []
-    betweenPauses = []
-    redDisplay = []
-    yellowDisplay = []
-    redNum = 0
-    yellowNum = 0
-    sequence = []
-    lastTime = 0
-    lastColorSignal = -1
 }
