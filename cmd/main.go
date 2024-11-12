@@ -28,17 +28,11 @@ func routes(r *httprouter.Router) {
 	//путь к папке со внешними файлами: html, js, css, изображения и т.д.
 	r.ServeFiles("/css/*filepath", http.Dir("css"))
 	r.ServeFiles("/js/*filepath", http.Dir("js"))
-	r.ServeFiles("/img/*filepath", http.Dir("img"))
 	//что следует выполнять при входящих запросах указанного типа и по указанному адресу
 	r.GET("/", Home)
 
-	//r.POST("/get_words", getWords)
-	////r.POST("/get_fingers", getFingers)
-	//r.POST("/get_research", getResearch)
-	//r.GET("/download_file", downloadFile)
-
-	fmt.Println("Сервер запущен. Перейдите по адресу http://localhost:8181/")
-	err := http.ListenAndServe(":8181", r)
+	fmt.Println("Сервер запущен. Перейдите по адресу http://localhost:8080/")
+	err := http.ListenAndServe(":8080", r)
 	if err != nil {
 		panic(err)
 	}
