@@ -29,10 +29,11 @@ func routes(r *httprouter.Router) {
 	r.ServeFiles("/css/*filepath", http.Dir("css"))
 	r.ServeFiles("/js/*filepath", http.Dir("js"))
 	r.ServeFiles("/icons/*filepath", http.Dir("icons"))
+	r.ServeFiles("/static/*filepath", http.Dir("static"))
 	//что следует выполнять при входящих запросах указанного типа и по указанному адресу
 	r.GET("/", Home)
 
-	fmt.Println("Сервер запущен. Перейдите по адресу http://localhost:8080/")
+	fmt.Println("1Сервер запущен. Перейдите по адресу http://localhost:8080/")
 	err := http.ListenAndServe(":8080", r)
 	if err != nil {
 		panic(err)
