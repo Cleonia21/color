@@ -28,6 +28,7 @@ func routes(r *httprouter.Router) {
 	//путь к папке со внешними файлами: html, js, css, изображения и т.д.
 	r.ServeFiles("/css/*filepath", http.Dir("css"))
 	r.ServeFiles("/js/*filepath", http.Dir("js"))
+	r.ServeFiles("/icons/*filepath", http.Dir("icons"))
 	//что следует выполнять при входящих запросах указанного типа и по указанному адресу
 	r.GET("/", Home)
 
