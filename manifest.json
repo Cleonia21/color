@@ -1,9 +1,11 @@
 {
     "name": "Traces",
     "description": "Nothing",
-    "short_name": "T",
+    "short_name": "Цветовая",
     "lang": "ru",
     "display": "fullscreen",
+    "start_url": "./",
+    "scope": ".",
  "icons": [
   {
    "src": "\/android-icon-36x36.png",
