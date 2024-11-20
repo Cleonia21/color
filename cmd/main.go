@@ -9,7 +9,7 @@ import (
 )
 
 func Home(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
-	home := filepath.Join("html", "home.html")
+	home := filepath.Join("public", "index.html")
 
 	tmpl, err := template.ParseFiles(home)
 	if err != nil {
@@ -26,10 +26,7 @@ func Home(w http.ResponseWriter, r *http.Request, p httprouter.Params) {
 
 func routes(r *httprouter.Router) {
 	//путь к папке со внешними файлами: html, js, css, изображения и т.д.
-	r.ServeFiles("/css/*filepath", http.Dir("css"))
-	r.ServeFiles("/js/*filepath", http.Dir("js"))
-	r.ServeFiles("/icons/*filepath", http.Dir("icons"))
-	r.ServeFiles("/static/*filepath", http.Dir("static"))
+	r.ServeFiles("/public/*filepath", http.Dir("public"))
 	//что следует выполнять при входящих запросах указанного типа и по указанному адресу
 	r.GET("/", Home)
 
