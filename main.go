@@ -31,7 +31,7 @@ func routes(r *httprouter.Router) {
 	r.GET("/", Home)
 
 	fmt.Println("1Сервер запущен. Перейдите по адресу http://localhost:8080/")
-	err := http.ListenAndServe(":8080", r)
+	err := http.ListenAndServe(":80", r)
 	if err != nil {
 		panic(err)
 	}
