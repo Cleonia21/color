@@ -49,12 +49,12 @@ addEventListener('mouseup', function (event) {
 })
 
 addEventListener('keydown', function(event) {
-    if (event.code === 'Enter' || event.code === 'ArrowUp') { //enterID
+    if (event.code === 'Enter' || event.key === 'Enter') { //enterID
         stageSwitch()
     } else if (nowResultStage())
         return
         
-    if (event.code === 'Space' || event.code === 'ArrowDown') {
+    if (event.code === 'Space' || event.key === ' ') {
         result.saveStep(circle.getResult())
         result.alert()
         circle = new Circle()
