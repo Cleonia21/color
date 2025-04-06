@@ -1,6 +1,4 @@
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
-    alert('Вы телефон');
-    
     circle = document.getElementById('circle')
     
     addEventListener('keydown', function(event) {
@@ -18,9 +16,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     })
     
 } else {
-    alert('Вы компьютер');
-
-        // определяем, поддерживается ли pointerLock
+    // определяем, поддерживается ли pointerLock
     const havePointerLock = 'pointerLockElement' in document ||
         'mozPointerLockElement' in document ||
         'webkitPointerLockElement' in document;
