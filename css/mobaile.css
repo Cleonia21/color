@@ -1,13 +1,17 @@
 @media (max-width:768px) {
     #circle {
-        width: 5cm;
-        height: 5cm;
+        width: 90%;
+        height: 0;
+        padding-top: 90%;
+        border-radius: 50%;
     }
 }
 
 @media (max-width:320px) {
     #circle {
-        width: 3cm;
-        height: 3cm;
+        width: 90%;
+        height: 0;
+        padding-top: 90%;
+        border-radius: 50%;
     }
 }
