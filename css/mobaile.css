@@ -1,13 +1,13 @@
 @media (max-width:768px) {
     #circle {
         width: 90%;
-/*         height: 90%; */
+        height: width;
     }
 }
 
 @media (max-width:320px) {
     #circle {
         width: 90%;
-/*         height: 90%; */
+        height: width;
     }
 }
