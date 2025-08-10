@@ -10,7 +10,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     })
 
     addEventListener('keyup', function(event) {
-        if (event.code === 'ArrowLeft' || 'ArrowRight') {
+        if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
             circle.style.background = '#6f6f6f'
         }
     })
@@ -86,7 +86,7 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
     })
     
     addEventListener('keyup', function(event) {
-        if (event.code === 'ArrowLeft' || 'ArrowRight') {
+        if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
             circle.turnOf()
         } else {
             console.log(event.code)
