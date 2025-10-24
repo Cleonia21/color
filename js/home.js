@@ -14,6 +14,26 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phon
             circle.style.background = '#6f6f6f'
         }
     })
+
+    // Обработчики мыши
+    circle.addEventListener('mousedown', function(event) {
+        if (event.button === 0) { // Левая кнопка мыши
+            circle.style.background = '#ff0000'
+        } else if (event.button === 2) { // Правая кнопка мыши
+            circle.style.background = 'yellow'
+        }
+    })
+
+    circle.addEventListener('mouseup', function(event) {
+        if (event.button === 0 || event.button === 2) {
+            circle.style.background = '#6f6f6f'
+        }
+    })
+
+    // Отключаем контекстное меню для правого клика
+    circle.addEventListener('contextmenu', function(event) {
+        event.preventDefault()
+    })
     
 } else {
     // определяем, поддерживается ли pointerLock
