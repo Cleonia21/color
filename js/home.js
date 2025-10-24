@@ -1,5 +1,8 @@
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
     circle = document.getElementById('circle')
+
+    // Всплывающее окно при загрузке страницы
+    alert("У вас последняя версия")
     
     addEventListener('keydown', function(event) {
         if (event.code === 'ArrowLeft') {
